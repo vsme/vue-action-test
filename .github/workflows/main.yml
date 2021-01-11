@@ -10,6 +10,8 @@ jobs:
       uses: CultureHQ/actions-yarn@master
       with:
         args: install
+
+    - uses: actions/checkout@master
     - name: Build
       uses: CultureHQ/actions-yarn@master
       with:
