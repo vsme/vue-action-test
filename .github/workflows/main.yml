@@ -1,8 +1,14 @@
 name: Deploy Vue
 on: [push]
 inputs:
-  username: 'vsme'
-  reponame: 'vue-action-test'
+  username: 
+    description: 'Your git username'
+    required: false
+    default: 'vsme'
+  reponame: 
+    description: 'Your git reponame'
+    required: false
+    default: 'vue-action-test'
   gitemail:
     description: 'Your git commit email'
     required: false
