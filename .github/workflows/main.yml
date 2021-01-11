@@ -1,14 +1,51 @@
-name: Build Vue
+name: Deploy Vue
 on: [push]
+inputs:
+  username: 'vsme'
+  reponame: 'vue-action-test'
+  gitemail:
+    description: 'Your git commit email'
+    required: false
+    default: 'CI@example.com'
+  gitname:
+    description: 'Your git commit name'
+    required: false
+    default: 'CI'
+  gitmsg:
+    description: 'Your git commit message'
+    required: false
+    default: 'deploy'
+  cname:
+    description: 'Your custom domain'
+    required: false
+    default: 'none'
+
 jobs:
   build_vue:
     runs-on: ubuntu-latest
     name: Build Vue
     steps:
-    - uses: actions/checkout@v2
-    - id: Build-Vue
-      uses: xRealNeon/VuePagesAction@1.0.0
+    - uses: actions/checkout@master
+    - name: Install
+      uses: CultureHQ/actions-yarn@master
       with:
-        username: 'vsme'
-        reponame: 'vue-action-test'
-        token: ${{ secrets.GITHUB_TOKEN }}
+        args: install
+    - name: Build
+      uses: CultureHQ/actions-yarn@master
+      with:
+        args: build
+
+  push_vue:
+    runs-on: ubuntu-latest
+    name: Push Vue
+    steps:
+      run: |
+            cd dist
+            if [ "none" !=  ${{ inputs.cname }} ]; then echo '${{ inputs.cname }}' > CNAME; fi
+            git config --global user.email "${{ inputs.gitemail }}"
+            git config --global user.name "${{ inputs.gitname }}"
+            git init
+            git add -A
+            git commit -m '${{ inputs.gitmsg }}'
+            git push -f https://${{ inputs.username }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ inputs.username }}/${{ inputs.reponame }}.git master:gh-pages
+      shell: bash
