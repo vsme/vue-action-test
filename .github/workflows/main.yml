@@ -2,18 +2,15 @@ name: Deploy Vue
 on: [push]
 jobs:
   build_vue:
-    runs-on: ubuntu-latest
     name: Build Vue
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Install
       uses: CultureHQ/actions-yarn@master
+    - name: Install
       with:
         args: install
 
-    - uses: actions/checkout@master
     - name: Build
-      uses: CultureHQ/actions-yarn@master
       with:
         args: build
 
