@@ -23,12 +23,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Push Vue
     steps:
-      run: |
-            cd dist
-            git config --global user.email "CI@example.com"
-            git config --global user.name "vsme"
-            git init
-            git add -A
-            git commit -m 'deploy'
-            git push -f https://vsme:${{ secrets.GITHUB_TOKEN }}@github.com/vsme/vue-action-test.git master:gh-pages
+    - run: cd dist
+    - run: git config --global user.email "CI@example.com"
+    - run: git config --global user.name "vsme"
+    - run: git init
+    - run: git add -A
+    - run: git commit -m 'deploy'
+    - run: git push -f https://vsme:${{ secrets.GITHUB_TOKEN }}@github.com/vsme/vue-action-test.git master:gh-pages
       shell: bash
