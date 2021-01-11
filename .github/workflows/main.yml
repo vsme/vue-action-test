@@ -1,31 +1,5 @@
 name: Deploy Vue
 on: [push]
-inputs:
-  username: 
-    description: 'Your git username'
-    required: false
-    default: 'vsme'
-  reponame: 
-    description: 'Your git reponame'
-    required: false
-    default: 'vue-action-test'
-  gitemail:
-    description: 'Your git commit email'
-    required: false
-    default: 'CI@example.com'
-  gitname:
-    description: 'Your git commit name'
-    required: false
-    default: 'CI'
-  gitmsg:
-    description: 'Your git commit message'
-    required: false
-    default: 'deploy'
-  cname:
-    description: 'Your custom domain'
-    required: false
-    default: 'none'
-
 jobs:
   build_vue:
     runs-on: ubuntu-latest
@@ -47,11 +21,10 @@ jobs:
     steps:
       run: |
             cd dist
-            if [ "none" !=  ${{ inputs.cname }} ]; then echo '${{ inputs.cname }}' > CNAME; fi
-            git config --global user.email "${{ inputs.gitemail }}"
-            git config --global user.name "${{ inputs.gitname }}"
+            git config --global user.email "CI@example.com"
+            git config --global user.name "vsme"
             git init
             git add -A
-            git commit -m '${{ inputs.gitmsg }}'
-            git push -f https://${{ inputs.username }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ inputs.username }}/${{ inputs.reponame }}.git master:gh-pages
+            git commit -m 'deploy'
+            git push -f https://vsme:${{ secrets.GITHUB_TOKEN }}@github.com/vsme/vue-action-test.git master:gh-pages
       shell: bash
